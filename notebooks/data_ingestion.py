@@ -5,13 +5,8 @@ import os
 import re
 import time
 
-# set the project root and its structure
-PROJECT_ROOT_DIR = '..'
-PROJECT_DATA_DIR = os.path.join(PROJECT_ROOT_DIR, 'capstone')
-
-# point to the origin of data
-DATA_DIR = os.path.join(PROJECT_DATA_DIR,'cs-train')
-TS_DIR = os.path.join(PROJECT_DATA_DIR, 'ts-data')
+#Load from 
+from project_setup import PROJECT_DATA_DIR, DATA_DIR, TS_DIR
 
 # Function to load avvail data 
 def load_avvail_data(data_dir):
@@ -31,8 +26,6 @@ def load_avvail_data(data_dir):
     
     df['dates'] = pd.to_datetime(df[['year', 'month', 'day']])
     df['year_month'] = [str(date)[0:7] for date in df.dates]
-   # df.to_csv(os.path.join('data','all-invoices.csv'),index = False)
-                                     
 
     return df
 
@@ -44,7 +37,6 @@ def timeseries_aggregate(dataframe, country = None):
     for only a single country
     """
 
-    
     if country != None:
         dataframe = dataframe[dataframe.country == country]
 
@@ -65,8 +57,7 @@ def timeseries_aggregate(dataframe, country = None):
         'daily_views' : daily_views,
         'daily_purchases': daily_purchases,
         'dates': date_range
-    }
-    
+    }    
     
     timeseries_df = pd.DataFrame(dataframe_dict)
     
@@ -92,7 +83,10 @@ def load_ts(ts_dir = TS_DIR, data_dir = DATA_DIR, replace = False, verbose = Tru
         return(ts)
 
     df = load_avvail_data(data_dir)
-    
+
+    ## Save all invoices from DF
+    df.to_csv(os.path.join(TS_DIR,'all-invoices.csv'),index = False)                                 
+
     ## Determine top 10 countries wrt revenue.
     top10_countries = df.groupby('country', as_index = False).\
     agg({'price':'sum'}).sort_values('price', ascending = False).country[:10]       
@@ -119,7 +113,6 @@ def engineer_features(dataframe, training = True):
     
     if training:
         dataframe = dataframe.head(dataframe.shape[0] - 30)
-
     
     eng_df = pd.DataFrame({})
     
@@ -141,10 +134,12 @@ def engineer_features(dataframe, training = True):
     
     return eng_df
 
+
 # Main Funciton 
 if __name__ == "__main__":
     
     run_start = time.time()
+    print ("start loading data")
   
     ## ingest data
     ts = load_ts(TS_DIR, DATA_DIR, replace = True)

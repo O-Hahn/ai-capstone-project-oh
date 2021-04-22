@@ -7,20 +7,11 @@ import os
 import time
 import re
 
-# set the project root and its structure
-PROJECT_ROOT_DIR = '..'
-PROJECT_DATA_DIR = os.path.join(PROJECT_ROOT_DIR, 'capstone')
-
-# point to the origin of data
-DATA_DIR = os.path.join(PROJECT_DATA_DIR,'cs-train')
-TS_DIR = os.path.join(PROJECT_DATA_DIR, 'ts-data')
-
-# set imaging dir
-IMAGE_DIR = os.path.join('images')
 
 #Import functions from data_ingestion script
-from data_ingestion import load_avvail_data
+from project_setup import PROJECT_DATA_DIR, DATA_DIR, IMAGE_DIR
 
+from data_ingestion import load_avvail_data
 
 def save_fig(figure_id):
     """
@@ -97,9 +88,11 @@ def create_plots(df):
 if __name__ == "__main__":
     
     run_start = time.time()
+    print ("start loading data")
     
-    # df = load_avvail_data(os.path.join('data','cs-train'))
     df = load_avvail_data(DATA_DIR)
+
+    print ("create necessary plots")
     create_plots(df)
     
     print("METADATA")
