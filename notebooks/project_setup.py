@@ -24,6 +24,15 @@ LOG_DIR = os.path.join(PROJECT_RUNTIME_DIR, 'logs')
 # set the model dir
 MODEL_DIR = os.path.join(PROJECT_RUNTIME_DIR, 'models')
 
+# set the unit-test dir
+UNITTEST_DIR = os.path.join(PROJECT_RUNTIME_DIR, 'unittests')
+
+# set the docker dir
+DOCKER_DIR = os.path.join(PROJECT_RUNTIME_DIR, 'dockerenv')
+
+# set test 
+TEST = False
+
 # Main Funciton 
 if __name__ == "__main__":
     
@@ -33,7 +42,7 @@ if __name__ == "__main__":
     # create path if needed
     if not os.path.exists(PROJECT_RUNTIME_DIR):
         os.mkdir(os.path.join(PROJECT_RUNTIME_DIR))
-    
+            
     ## 
     m, s = divmod(time.time()-run_start,60)
     h, m = divmod(m, 60)

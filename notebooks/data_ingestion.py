@@ -85,7 +85,7 @@ def load_ts(ts_dir = TS_DIR, data_dir = DATA_DIR, replace = False, verbose = Tru
     df = load_avvail_data(data_dir)
 
     ## Save all invoices from DF
-    df.to_csv(os.path.join(TS_DIR,'all-invoices.csv'),index = False)                                 
+    # df.to_csv(os.path.join(TS_DIR,'all-invoices.csv'),index = False)                                 
 
     ## Determine top 10 countries wrt revenue.
     top10_countries = df.groupby('country', as_index = False).\

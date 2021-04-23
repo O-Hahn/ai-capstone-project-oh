@@ -235,9 +235,10 @@ if __name__ == "__main__":
     
     run_start = time.time()
 
-    ## train the model
-    print("...Training Models")
-    model_train(TS_DIR)
+    ## train the models if directory not exists
+    if not os.path.exists(MODEL_DIR):
+        print("...Training Models")
+        model_train(TS_DIR)
 
     ## load the model
     print("...Loading Models")
